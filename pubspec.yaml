@@ -1,60 +1,23 @@
-name: ew_2025_flutter_demo
-description: "EmbeddedWorld 2025 Flutter Demo"
-publish_to: "none"
-version: 1.0.0
+name: ew_flutter_demo
+description: "Flutter Demo for Embedded World"
+publish_to: 'none'
+
+version: 1.0.0+1
 
 environment:
-  sdk: ">=3.3.0 <4.0.0"
+  sdk: ^3.9.2
 
 dependencies:
-  carousel_slider: ^4.2.1
-  cron: ^0.6.1
-  cupertino_icons: ^1.0.6
-  fl_chart: ^0.66.2
-  flex_color_scheme: ^8.2.0
+  cupertino_icons: ^1.0.8
   flutter:
     sdk: flutter
-  flutter_svg: ^2.0.10+1
-  font_awesome_flutter: ^10.7.0
-  get: ^4.6.6
-  intl: ^0.19.0
-  lottie: ^3.1.0
-  path: ^1.9.0
-  sleek_circular_slider: ^2.0.1
-  smooth_page_indicator: ^1.2.0+3
-  very_good_analysis: ^5.1.0
-  weather: ^3.1.1
+  import_sorter: ^4.6.0
+  very_good_analysis: ^10.0.0
 
 dev_dependencies:
-  flutter_lints: ^3.0.0
+  flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
-  import_sorter: ^4.6.0
 
 flutter:
   uses-material-design: true
-  assets:
-    - assets/icons/
-    - assets/lottie/
-    - assets/weather_icons/
-  fonts:
-    - family: Roboto
-      fonts:
-        - asset: assets/fonts/Roboto-Thin.ttf
-          weight: 100
-        - asset: assets/fonts/Roboto-ExtraLight.ttf
-          weight: 200
-        - asset: assets/fonts/Roboto-Light.ttf
-          weight: 300
-        - asset: assets/fonts/Roboto-Regular.ttf
-          weight: 400
-        - asset: assets/fonts/Roboto-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Roboto-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/Roboto-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/Roboto-ExtraBold.ttf
-          weight: 800
-        - asset: assets/fonts/Roboto-Black.ttf
-          weight: 900
