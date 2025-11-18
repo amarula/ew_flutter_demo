@@ -1,6 +1,9 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_svg/svg.dart';
+
 // Project imports:
 import 'package:ew_flutter_demo/pages/home_page.dart';
 
@@ -17,9 +20,27 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Embedded World Flutter Thermostat',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        fontFamily: 'Inter',
+        colorScheme: const ColorScheme.dark(),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            padding: EdgeInsets.zero,
+            minimumSize: const Size(48, 48),
+            maximumSize: const Size(48, 48),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
       ),
-      home: const HomePage(),
+      debugShowCheckedModeBanner: false,
+      home: const DefaultSvgTheme(
+        theme: SvgTheme(currentColor: Colors.white),
+        child: HomePage(),
+      ),
     );
   }
 }
