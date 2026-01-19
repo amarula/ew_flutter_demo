@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:lottie/lottie.dart';
 
+// Project imports:
+import 'package:ew_2026_flutter_demo/components/temp_change_button.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -20,18 +23,37 @@ class _HomePageState extends State<HomePage> {
       // appBar: const HomePageAppbar(),
       backgroundColor: const Color(0xFF222630),
       body: Center(
-        child: Stack(
-          alignment: Alignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Lottie.asset(
-              'assets/lottie/${isHeating ? 'heating' : 'cooling'}_ring.json',
+            TempChangeButton(
+              icon: const Icon(Icons.expand_less),
+              onPressed: () {
+                isHeating = true;
+                setState(() {});
+              },
             ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
+            Stack(
+              alignment: Alignment.center,
               children: [
-                const Text('24°', style: TextStyle(fontSize: 72)),
-                Text(isHeating ? 'Heat' : 'Cool'),
+                Lottie.asset(
+                  'assets/lottie/${isHeating ? 'heating' : 'cooling'}_ring.json',
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text('24°', style: TextStyle(fontSize: 72)),
+                    Text(isHeating ? 'Heat' : 'Cool'),
+                  ],
+                ),
               ],
+            ),
+            TempChangeButton(
+              icon: const Icon(Icons.expand_more),
+              onPressed: () {
+                isHeating = false;
+                setState(() {});
+              },
             ),
           ],
         ),
