@@ -1,6 +1,6 @@
 name: ew_2026_flutter_demo
 description: "Flutter Demo for Embedded World 2026"
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -31,4 +31,4 @@ flutter:
   fonts:
     - family: Inter
       fonts:
-          - asset: assets/fonts/Inter.ttf
+        - asset: assets/fonts/Inter.ttf
