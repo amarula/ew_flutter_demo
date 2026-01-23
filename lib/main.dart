@@ -6,8 +6,16 @@ import 'package:flutter_svg/svg.dart';
 
 // Project imports:
 import 'package:ew_2026_flutter_demo/pages/main_page.dart';
+import 'package:ew_2026_flutter_demo/services/weather_forecast_service.dart';
+
+final weatherForecastService = WeatherForecastService();
 
 void main() {
+  weatherForecastService
+    ..init()
+    ..queryWeather()
+    ..queryForecast();
+
   runApp(const MyApp());
 }
 
