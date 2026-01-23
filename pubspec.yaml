@@ -28,6 +28,7 @@ flutter:
   assets:
     - assets/lottie/
     - assets/svg/
+    - assets/weather_icons/
   fonts:
     - family: Inter
       fonts:
