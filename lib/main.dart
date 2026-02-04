@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 // Project imports:
-import 'package:ew_2026_flutter_demo/pages/home_page.dart';
+import 'package:ew_2026_flutter_demo/pages/main_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const DefaultSvgTheme(
         theme: SvgTheme(currentColor: Colors.white),
-        child: HomePage(),
+        child: MainPage(),
       ),
     );
   }

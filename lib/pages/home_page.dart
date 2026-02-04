@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:lottie/lottie.dart';
 
-// Project imports:
-import 'package:ew_2026_flutter_demo/components/home_page_appbar.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -20,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const HomePageAppbar(),
+      // appBar: const HomePageAppbar(),
       backgroundColor: const Color(0xFF222630),
       body: Center(
         child: Stack(
