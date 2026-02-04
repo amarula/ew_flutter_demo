@@ -24,8 +24,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/svg/
     - assets/lottie/
+    - assets/svg/
   fonts:
     - family: Inter
       fonts:
