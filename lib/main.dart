@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 // Project imports:
-import 'package:ew_flutter_demo/pages/home_page.dart';
+import 'package:ew_2026_flutter_demo/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());

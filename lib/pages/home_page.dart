@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 // Project imports:
-import 'package:ew_flutter_demo/components/home_page_appbar.dart';
+import 'package:ew_2026_flutter_demo/components/home_page_appbar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
