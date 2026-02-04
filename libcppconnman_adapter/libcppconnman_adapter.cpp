@@ -151,4 +151,58 @@ void free_wifi_result(WifiScanResult result) {
   free(result.services);
 }
 
+bool wifi_connect(const char *ssid, const char *passphrase) {
+  using ServType = Amarula::DBus::G::Connman::ServProperties::Type;
+  using ServState = Amarula::DBus::G::Connman::ServProperties::State;
+
+  auto manager = connman_.manager();
+  if (!manager) {
+    std::cerr << "Failed to get Connman manager\n";
+    return {};
+  }
+
+  {
+    std::promise<bool> promise;
+    auto future = promise.get_future();
+    manager->registerAgent(
+        manager->internalAgentPath(),
+        [&promise](const auto success) { promise.set_value(success); });
+    if (!future.get()) {
+      std::cerr << "Failed to register agent\n";
+      return false;
+    }
+  }
+
+  std::string pass(passphrase);
+  manager->onRequestInputPassphrase([pass](auto /*service*/) {
+    return std::pair<bool, std::string>{true, pass};
+  });
+
+  const auto services = manager->services();
+
+  auto new_wifi_it = std::find_if(
+      services.begin(), services.end(), [&ssid](const auto &service) {
+        if (!service) return false;
+        const auto serv_props = service->properties();
+        return serv_props.getType() == ServType::Wifi &&
+               serv_props.getName() == ssid;
+      });
+
+  if (new_wifi_it == services.end()) {
+    std::cerr << "WiFi requested not found\n";
+    manager->unregisterAgent(manager->internalAgentPath());
+    return false;
+  }
+
+  auto *const new_wifi = new_wifi_it->get();
+
+  std::promise<bool> promise;
+  auto future = promise.get_future();
+  new_wifi->connect([&](const auto success) {
+    promise.set_value(success);
+    manager->unregisterAgent(manager->internalAgentPath());
+  });
+  return future.get();
+}
+
 }  // extern "C"
