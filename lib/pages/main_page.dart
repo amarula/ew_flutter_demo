@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 
 // Project imports:
 import 'package:ew_2026_flutter_demo/pages/home_page.dart' show HomePage;
+import 'package:ew_2026_flutter_demo/pages/weather_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -33,7 +34,7 @@ class _MainPageState extends State<MainPage> {
       iconPath: 'assets/svg/home.svg',
     ),
     MenuEntry(
-      widget: const Placeholder(),
+      widget: const WeatherPage(),
       iconPath: 'assets/svg/weather.svg',
     ),
     MenuEntry(
