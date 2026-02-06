@@ -1,0 +1,25 @@
+<svg width="32" height="32" version="1.1" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+ <!-- Sun circle moved down to horizon -->
+ <circle cx="16" cy="24" r="6" fill="#fc3"/>
+ 
+ <!-- Sun rays -->
+ <!-- Top ray -->
+ <rect x="15" y="12" width="2" height="3" rx="1" fill="#fc3"/>
+ <!-- Top-left ray -->
+ <rect x="9.5" y="14.5" width="2" height="3" rx="1" transform="rotate(-45 10.5 16)" fill="#fc3"/>
+ <!-- Top-right ray -->
+ <rect x="20.5" y="14.5" width="2" height="3" rx="1" transform="rotate(45 21.5 16)" fill="#fc3"/>
+ <!-- Left ray -->
+ <rect x="6" y="23" width="3" height="2" rx="1" fill="#fc3"/>
+ <!-- Right ray -->
+ <rect x="23" y="23" width="3" height="2" rx="1" fill="#fc3"/>
+ 
+ <!-- Horizon line -->
+ <line x1="2" y1="24" x2="30" y2="24" stroke="#fc3" stroke-width="1.5" stroke-linecap="round"/>
+ 
+ <!-- Highlight overlay on sun -->
+ <path d="m10 24a6 6 0 0 1 6-6 6 6 0 0 1 6 6" fill="#fff" opacity="0.35"/>
+ 
+ <!-- Shadow overlay on sun -->
+ <path d="m10 24a6 6 0 0 0 6 6 6 6 0 0 0 6-6" fill="#000" opacity="0.1"/>
+</svg>

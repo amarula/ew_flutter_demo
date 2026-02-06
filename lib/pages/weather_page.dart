@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:ew_2026_flutter_demo/components/weather_page_appbar.dart';
 import 'package:ew_2026_flutter_demo/widgets/weather_forecast_widget.dart';
 
 class WeatherPage extends StatefulWidget {
@@ -16,13 +15,9 @@ class _WeatherPageState extends State<WeatherPage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      appBar: WeatherPageAppbar(),
       backgroundColor: Color(0xFF222630),
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [WeatherForecastWidget()],
-        ),
+      body: Center(
+        child: WeatherForecastWidget(),
       ),
     );
   }

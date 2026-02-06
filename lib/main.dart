@@ -13,7 +13,7 @@ final weatherForecastService = WeatherForecastService();
 void main() {
   weatherForecastService
     ..init()
-    ..city = 'Carpi';
+    ..city = 'Savoca';
 
   runApp(const MyApp());
 }

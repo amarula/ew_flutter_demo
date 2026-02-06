@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 class TempChangeButton extends StatelessWidget {
   const TempChangeButton({
-    super.key,
     required this.icon,
     required this.onPressed,
+    super.key,
   });
 
   final Icon icon;

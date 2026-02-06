@@ -78,7 +78,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF2D323E),
+      backgroundColor: const Color(0xFF373e4e),
       body: Row(
         children: [
           SizedBox(

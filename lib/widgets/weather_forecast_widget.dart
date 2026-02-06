@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 // Project imports:
+import 'package:ew_2026_flutter_demo/components/current_weather_card.dart';
+import 'package:ew_2026_flutter_demo/components/day_forecast_card.dart';
+import 'package:ew_2026_flutter_demo/components/sun_time_card.dart';
+import 'package:ew_2026_flutter_demo/components/weather_detail_card.dart';
 import 'package:ew_2026_flutter_demo/main.dart';
-import 'package:ew_2026_flutter_demo/utils/string_extensions.dart';
-import 'package:ew_2026_flutter_demo/widgets/day_forecast_widget.dart';
-import 'package:ew_2026_flutter_demo/widgets/temperature_text_widget.dart';
 
 class WeatherForecastWidget extends StatefulWidget {
   const WeatherForecastWidget({
@@ -80,140 +82,92 @@ class _WeatherForecastWidgetState extends State<WeatherForecastWidget> {
           return noDataAvailable();
         }
 
-        return Container(
-          margin: const EdgeInsets.all(16),
+        return Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 16,
             children: [
+              const Spacer(
+                flex: 3,
+              ),
+
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 16,
                 children: [
-                  const Padding(padding: EdgeInsets.only(left: 48)),
-                  SvgPicture.asset(
-                    'assets/svg/${weatherForecastService.currentWeather.weatherIcon}.svg',
-                    width: 120,
-                    height: 120,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(padding: EdgeInsets.only(top: 8)),
-                      Text(
-                        weatherForecastService.currentWeather.areaName!,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      const Padding(padding: EdgeInsets.only(top: 16)),
-                      Text(
-                        weatherForecastService
-                            .currentWeather
-                            .weatherDescription!
-                            .capitalize,
-                        maxLines: 2,
-                        softWrap: true,
-                        style: const TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  TemperatureTextWidget(
-                    degree: weatherForecastService
-                        .currentWeather
-                        .temperature!
-                        .celsius!
-                        .toStringAsFixed(0),
-                    decimal: weatherForecastService
-                        .currentWeather
-                        .temperature!
-                        .celsius!
-                        .toStringAsFixed(1)
-                        .split('.')[1]
-                        .substring(0, 1),
-                    fontSize: 100,
-                  ),
-                  const Padding(padding: EdgeInsets.only(right: 48)),
-                ],
-              ),
-              Row(
-                children: [
-                  const Padding(padding: EdgeInsets.only(left: 48)),
-                  SvgPicture.asset(
-                    'assets/svg/wind.svg',
-                    width: 32,
-                    height: 32,
-                  ),
-                  const Padding(padding: EdgeInsets.only(right: 8)),
-                  Text(
-                    '${degreeToCompass(weatherForecastService.currentWeather.windDegree!)} ${weatherForecastService.currentWeather.windSpeed} m/s',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w300,
+                  const CurrentWeatherCard(),
+
+                  WeatherDetailCard(
+                    title: 'Wind',
+                    icon: 'assets/svg/wind.svg',
+                    value: '${weatherForecastService.currentWeather.windSpeed}',
+                    unit: ' m/s',
+                    footer: degreeToCompass(
+                      weatherForecastService.currentWeather.windDegree!,
                     ),
                   ),
-                  const Spacer(),
-                  SvgPicture.asset(
-                    'assets/svg/humidity.svg',
-                    width: 30,
-                    height: 30,
-                  ),
-                  const Padding(padding: EdgeInsets.only(right: 8)),
-                  Text(
-                    '${weatherForecastService.currentWeather.humidity}%',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                  const Padding(padding: EdgeInsets.only(right: 48)),
                 ],
               ),
-              const Divider(
-                thickness: 2,
-              ),
+
+              const Spacer(),
+
               SizedBox(
                 width: double.infinity,
-                height: 180,
+
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 19,
                   children: [
-                    const Padding(padding: EdgeInsets.all(8)),
-                    DayForecastWidget(
+                    const Spacer(),
+
+                    DayForecastCard(
                       weather: weatherForecastService.forecast[0],
                     ),
-                    const VerticalDivider(
-                      thickness: 2,
-                    ),
-                    DayForecastWidget(
+
+                    DayForecastCard(
                       weather: weatherForecastService.forecast[1],
                     ),
-                    const VerticalDivider(
-                      thickness: 2,
-                    ),
-                    DayForecastWidget(
+
+                    DayForecastCard(
                       weather: weatherForecastService.forecast[2],
                     ),
-                    const VerticalDivider(
-                      thickness: 2,
-                    ),
-                    DayForecastWidget(
+
+                    DayForecastCard(
                       weather: weatherForecastService.forecast[3],
                     ),
-                    const VerticalDivider(
-                      thickness: 2,
-                    ),
-                    DayForecastWidget(
+
+                    DayForecastCard(
                       weather: weatherForecastService.forecast[4],
                     ),
-                    const Padding(padding: EdgeInsets.all(8)),
+
+                    Column(
+                      spacing: 8,
+                      children: [
+                        SunTimeCard(
+                          label: 'Sunrise',
+                          time: DateFormat('Hm').format(
+                            weatherForecastService.currentWeather.sunrise!,
+                          ),
+                          icon: 'assets/svg/sunrise.svg',
+                        ),
+                        SunTimeCard(
+                          label: 'Sunset',
+                          time: DateFormat('Hm').format(
+                            weatherForecastService.currentWeather.sunset!,
+                          ),
+                          icon: 'assets/svg/sunset.svg',
+                        ),
+                      ],
+                    ),
+
+                    const Spacer(),
                   ],
                 ),
               ),
-              const Padding(padding: EdgeInsets.all(4)),
+
+              const Spacer(
+                flex: 3,
+              ),
             ],
           ),
         );
