@@ -34,7 +34,7 @@ class _DayForecastWidgetState extends State<DayForecastWidget> {
           ),
           const Spacer(),
           SvgPicture.asset(
-            'assets/weather_icons/${widget.weather.icon}.svg',
+            'assets/svg/${widget.weather.icon}.svg',
             width: 56,
             height: 56,
           ),

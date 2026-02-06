@@ -76,7 +76,7 @@ class _WeatherForecastWidgetState extends State<WeatherForecastWidget> {
                 children: [
                   const Padding(padding: EdgeInsets.only(left: 48)),
                   SvgPicture.asset(
-                    'assets/weather_icons/${weatherForecastService.currentWeather.weatherIcon}.svg',
+                    'assets/svg/${weatherForecastService.currentWeather.weatherIcon}.svg',
                     width: 120,
                     height: 120,
                   ),
@@ -129,7 +129,7 @@ class _WeatherForecastWidgetState extends State<WeatherForecastWidget> {
                 children: [
                   const Padding(padding: EdgeInsets.only(left: 48)),
                   SvgPicture.asset(
-                    'assets/weather_icons/wind.svg',
+                    'assets/svg/wind.svg',
                     width: 32,
                     height: 32,
                   ),
@@ -142,8 +142,8 @@ class _WeatherForecastWidgetState extends State<WeatherForecastWidget> {
                     ),
                   ),
                   const Spacer(),
-                  Image.asset(
-                    'assets/icons/humidity.png',
+                  SvgPicture.asset(
+                    'assets/svg/humidity.svg',
                     width: 30,
                     height: 30,
                   ),
