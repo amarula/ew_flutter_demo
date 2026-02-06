@@ -29,8 +29,10 @@ class WeatherForecastService with ChangeNotifier {
   Future<void> queryWeather() async {
     // final weather =
     //     await ws.currentWeatherByLocation(44.7839, 10.8797); // CARPI
-    final weather =
-        await ws.currentWeatherByLocation(49.4543, 11.0746); // NORIMBERGA
+    final weather = await ws.currentWeatherByLocation(
+      49.4543,
+      11.0746,
+    ); // NORIMBERGA
     _currentWeather = weather;
 
     notifyListeners();
@@ -38,8 +40,10 @@ class WeatherForecastService with ChangeNotifier {
 
   Future<void> queryForecast() async {
     // final data = await ws.fiveDayForecastByLocation(44.7839, 10.8797); // CARPI
-    final data =
-        await ws.fiveDayForecastByLocation(49.4543, 11.0746); // NORIMBERGA
+    final data = await ws.fiveDayForecastByLocation(
+      49.4543,
+      11.0746,
+    ); // NORIMBERGA
 
     for (final weather in data) {
       final d = DailyWeather()
