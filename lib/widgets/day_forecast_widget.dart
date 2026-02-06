@@ -40,7 +40,7 @@ class _DayForecastWidgetState extends State<DayForecastWidget> {
           ),
           const Spacer(),
           Text(
-            '${widget.weather.tempMax} °C',
+            '${widget.weather.temperature} °C',
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w700,
@@ -48,7 +48,7 @@ class _DayForecastWidgetState extends State<DayForecastWidget> {
           ),
           const Padding(padding: EdgeInsets.all(8)),
           Text(
-            '${widget.weather.tempMin} °C',
+            '${widget.weather.temperature} °C',
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w400,

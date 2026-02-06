@@ -1,3 +1,6 @@
+// Dart imports:
+import 'dart:async';
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 
@@ -8,13 +11,21 @@ import 'package:weather/weather.dart';
 class DailyWeather {
   String weekDay = '';
   String icon = '';
-  String tempMax = '';
-  String tempMin = '';
+  String temperature = '';
 }
 
 class WeatherForecastService with ChangeNotifier {
-  String key = '47a0fdb9d9cdf45ea46d5ebe5d8e1596';
-  late WeatherFactory ws;
+  late WeatherFactory _ws;
+
+  final String _key = '47a0fdb9d9cdf45ea46d5ebe5d8e1596';
+
+  late String _city;
+  String get city => _city;
+  set city(String newCity) {
+    _city = newCity;
+    unawaited(queryWeather());
+    unawaited(queryForecast());
+  }
 
   late Weather _currentWeather;
   Weather get currentWeather => _currentWeather;
@@ -23,34 +34,24 @@ class WeatherForecastService with ChangeNotifier {
   List<DailyWeather> get forecast => _forecast;
 
   void init() {
-    ws = WeatherFactory(key);
+    _ws = WeatherFactory(_key);
   }
 
   Future<void> queryWeather() async {
-    // final weather =
-    //     await ws.currentWeatherByLocation(44.7839, 10.8797); // CARPI
-    final weather = await ws.currentWeatherByLocation(
-      49.4543,
-      11.0746,
-    ); // NORIMBERGA
+    final weather = await _ws.currentWeatherByCityName(_city);
     _currentWeather = weather;
 
     notifyListeners();
   }
 
   Future<void> queryForecast() async {
-    // final data = await ws.fiveDayForecastByLocation(44.7839, 10.8797); // CARPI
-    final data = await ws.fiveDayForecastByLocation(
-      49.4543,
-      11.0746,
-    ); // NORIMBERGA
+    final data = await _ws.fiveDayForecastByCityName(_city);
 
     for (final weather in data) {
       final d = DailyWeather()
         ..weekDay = DateFormat.E().format(weather.date!)
         ..icon = weather.weatherIcon!
-        ..tempMax = weather.tempMax!.celsius!.toStringAsFixed(1)
-        ..tempMin = weather.tempMin!.celsius!.toStringAsFixed(1);
+        ..temperature = weather.temperature!.celsius!.toStringAsFixed(1);
 
       var found = false;
       for (final dailyWeather in forecast) {
@@ -58,11 +59,9 @@ class WeatherForecastService with ChangeNotifier {
           if (weather.date!.hour == 13) {
             dailyWeather.icon = d.icon;
           }
-          if (double.parse(d.tempMax) > double.parse(dailyWeather.tempMax)) {
-            dailyWeather.tempMax = d.tempMax;
-          }
-          if (double.parse(d.tempMin) < double.parse(dailyWeather.tempMin)) {
-            dailyWeather.tempMin = d.tempMin;
+          if (double.parse(d.temperature) >
+              double.parse(dailyWeather.temperature)) {
+            dailyWeather.temperature = d.temperature;
           }
           found = true;
           break;

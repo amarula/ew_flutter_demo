@@ -13,8 +13,7 @@ final weatherForecastService = WeatherForecastService();
 void main() {
   weatherForecastService
     ..init()
-    ..queryWeather()
-    ..queryForecast();
+    ..city = 'Carpi';
 
   runApp(const MyApp());
 }
