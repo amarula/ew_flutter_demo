@@ -44,27 +44,41 @@ class _WeatherForecastWidgetState extends State<WeatherForecastWidget> {
     return array[(v % 16)];
   }
 
+  Widget noDataAvailable() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+
+        children: [
+          SvgPicture.asset(
+            'assets/svg/weather_none.svg',
+            width: 120,
+            height: 120,
+          ),
+
+          const SizedBox(height: 24),
+
+          const Text(
+            'No data available',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 36,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
       listenable: weatherForecastService,
       builder: (context, child) {
         if (weatherForecastService.forecast.isEmpty) {
-          return const Center(
-            child: Text(
-              'No data\n\nReload Weather Forecast',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 48,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          );
+          return noDataAvailable();
         }
-
-        // print(
-        //   "WeatherIcon: ${weatherForecastService.currentWeather.weatherIcon}",
-        // );
 
         return Container(
           margin: const EdgeInsets.all(16),
