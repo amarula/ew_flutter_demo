@@ -2,11 +2,11 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // Project imports:
 import 'package:ew_2026_flutter_demo/main.dart';
+import 'package:ew_2026_flutter_demo/utils/string_extensions.dart';
 import 'package:ew_2026_flutter_demo/widgets/day_forecast_widget.dart';
 import 'package:ew_2026_flutter_demo/widgets/temperature_text_widget.dart';
 

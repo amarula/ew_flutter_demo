@@ -17,7 +17,6 @@ dependencies:
   lottie: ^3.3.2
   very_good_analysis: ^10.0.0
   weather: ^3.1.1
-  flex_color_scheme: ^8.2.0
 
 dev_dependencies:
   flutter_lints: ^5.0.0
