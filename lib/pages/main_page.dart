@@ -67,12 +67,6 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  @override
-  void initState() {
-    _selectedIndex = 0;
-    super.initState();
-  }
-
   Widget wifiStatusIcon(int strength) {
     return SvgPicture.asset(
       'assets/svg/wifi_offline.svg',
