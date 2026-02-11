@@ -24,6 +24,7 @@ set(BUILD_SHARED_LIBS ON)
 add_library(${PROJECT_NAME} libcppconnman_adapter.cpp)
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1.0.0 SOVERSION 1)
 target_link_libraries(${PROJECT_NAME} Amarula::GConnmanDbus)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)
 
 include(GNUInstallDirs)
 
