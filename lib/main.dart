@@ -43,7 +43,6 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      debugShowCheckedModeBanner: false,
       home: const DefaultSvgTheme(
         theme: SvgTheme(currentColor: Colors.white),
         child: MainPage(),
