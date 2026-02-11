@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 // Project imports:
+import 'package:ew_2026_flutter_demo/main.dart';
 import 'package:ew_2026_flutter_demo/pages/home_page.dart' show HomePage;
 import 'package:ew_2026_flutter_demo/pages/weather_page.dart';
 
@@ -68,10 +69,15 @@ class _MainPageState extends State<MainPage> {
   }
 
   Widget wifiStatusIcon(int strength) {
-    return SvgPicture.asset(
-      'assets/svg/wifi_offline.svg',
-      width: 48,
-      height: 48,
+    return ListenableBuilder(
+      listenable: networkWifiService,
+      builder: (context, child) {
+        return SvgPicture.asset(
+          networkWifiService.wifiStrenghtIcon(),
+          width: 48,
+          height: 48,
+        );
+      },
     );
   }
 
