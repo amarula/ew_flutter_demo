@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:ew_2026_flutter_demo/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -39,7 +40,7 @@ class _MainPageState extends State<MainPage> {
       iconPath: 'assets/svg/weather.svg',
     ),
     MenuEntry(
-      widget: const Placeholder(),
+      widget: const SettingsPage(),
       iconPath: 'assets/svg/settings.svg',
     ),
   ];
