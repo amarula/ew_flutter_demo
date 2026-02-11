@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <amarula/dbus/connman/gconnman.hpp>
+#include <libcppdebounce/debounce.hpp>
 
 struct WifiService {
   const char *name;
@@ -62,6 +63,69 @@ void *get_wifi_technology() {
   }
 
   return (void *)wifi_tech->get();
+}
+
+bool is_connected(ServProperties::State state) {
+  return state == ServProperties::State::Online ||
+         state == ServProperties::State::Ready;
+}
+
+typedef void (*WiFiStatusCallback)(WifiService service);
+
+void monitor(WiFiStatusCallback cb) {
+  using ServType = ServProperties::Type;
+
+  // Must be stored statically since it might be called when cb is destroyed.
+  static WiFiStatusCallback callback;
+  callback = cb;
+
+  auto manager = connman_.manager();
+  if (!manager) {
+    std::cerr << "Failed to get Connman manager\n";
+    return;
+  }
+
+  static const auto network_check = []() {
+    std::cout << "network_check\n";
+
+    // Debounce prevents multiple callback calls within 500 milliseconds.
+    Debounce::debounce("network_changes", std::chrono::milliseconds(500), []() {
+      auto manager = connman_.manager();
+      if (!manager) {
+        std::cerr << "Failed to get Connman manager\n";
+        return;
+      }
+
+      for (const auto &serv : manager->services()) {
+        if (!serv) continue;
+
+        const auto props = serv->properties();
+        if (props.getType() != ServType::Wifi || props.getName().empty())
+          continue;
+
+        if (!is_connected(props.getState())) continue;
+
+        static std::string cached_name;
+        cached_name = props.getName();
+
+        WifiService s;
+        s.name = cached_name.c_str();
+        s.strength = (int)props.getStrength();
+        callback(s);
+        return;
+      }
+
+      callback({});
+    });
+  };
+
+  manager->onServicesChanged([](const auto &services) {
+    for (const auto &service : services) {
+      service->onPropertyChanged([](const auto &) { network_check(); });
+    }
+
+    network_check();
+  });
 }
 
 WifiScanResult wifi_scan() {
@@ -153,7 +217,6 @@ void free_wifi_scan_result(WifiScanResult result) {
 
 bool wifi_connect(const char *ssid, const char *passphrase) {
   using ServType = Amarula::DBus::G::Connman::ServProperties::Type;
-  using ServState = Amarula::DBus::G::Connman::ServProperties::State;
 
   auto manager = connman_.manager();
   if (!manager) {
