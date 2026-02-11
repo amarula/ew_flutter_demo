@@ -30,6 +30,7 @@ flutter:
   assets:
     - assets/lottie/
     - assets/svg/
+    - assets/png/
   fonts:
     - family: Inter
       fonts:
