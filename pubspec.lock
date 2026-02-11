@@ -89,6 +89,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
+  flutekeyboard:
+    dependency: "direct main"
+    description:
+      name: flutekeyboard
+      sha256: "67389a00040157eefc12f898e810265077832a652fd9a45d333aef5b933f1a30"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   flutter:
     dependency: "direct main"
     description: flutter
