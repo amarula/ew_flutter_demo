@@ -143,7 +143,7 @@ WifiScanResult wifi_scan() {
 }
 
 // IMPORTANT: You need a way to free the memory later to avoid leaks
-void free_wifi_result(WifiScanResult result) {
+void free_wifi_scan_result(WifiScanResult result) {
   if (!result.services) return;
   for (int i = 0; i < result.count; i++) {
     free((void *)result.services[i].name);

@@ -15,6 +15,17 @@ if(NOT GDbusCpp_FOUND)
   FetchContent_MakeAvailable(GDbusCpp)
 endif()
 
+find_package(cppdebounce QUIET)
+if(NOT cppdebounce_FOUND)
+  FetchContent_Declare(
+    cppdebounce
+    GIT_REPOSITORY https://github.com/AndreaRicchi/libcppdebounce.git
+    GIT_TAG main)
+  set(CPPDEBOUNCE_TEST OFF)
+  set(CPPDEBOUNCE_EXAMPLE OFF)
+  FetchContent_MakeAvailable(cppdebounce)
+endif()
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -23,7 +34,8 @@ set(BUILD_SHARED_LIBS ON)
 
 add_library(${PROJECT_NAME} libcppconnman_adapter.cpp)
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION 1.0.0 SOVERSION 1)
-target_link_libraries(${PROJECT_NAME} Amarula::GConnmanDbus)
+target_link_libraries(${PROJECT_NAME} Amarula::GConnmanDbus
+                      cppdebounce::cppdebounce)
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)
 
 include(GNUInstallDirs)
