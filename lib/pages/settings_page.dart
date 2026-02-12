@@ -311,7 +311,9 @@ class _SettingsPageState extends State<SettingsPage> {
               builder: (context, child) {
                 return SettingsCard(
                   title: 'Location',
-                  value: weatherForecastService.currentWeather.areaName!,
+                  value: weatherForecastService.forecast.isNotEmpty
+                      ? weatherForecastService.currentWeather.areaName!
+                      : 'Not initialized',
                   iconData: Icons.location_on_outlined,
                   onPressed: () => {
                     TextFieldDialog.displayAlphanumDialog(
