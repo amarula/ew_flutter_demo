@@ -35,12 +35,10 @@ class _SettingsPageState extends State<SettingsPage> {
     });
 
     try {
-      networkWifiService.scanWiFi();
+      await networkWifiService.scanWiFi();
     } catch (e) {
       print(e);
     }
-
-    await Future.delayed(const Duration(seconds: 5));
 
     setState(() {
       _scanInProgress = false;

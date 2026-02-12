@@ -1,5 +1,6 @@
 // Dart imports:
 import 'dart:ffi';
+import 'dart:isolate';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
@@ -57,29 +58,24 @@ typedef WifiConnectC =
 typedef WifiConnectDart =
     bool Function(Pointer<Utf8> ssid, Pointer<Utf8> passphrase);
 
+late MonitorDart _monitor;
+late NativeCallable<MonitorCallback> _monitorCallbackFunc;
+
+late WifiScanDart _wifiScan;
+late FreeWifiScanResultDart _freeWifiResult;
+
+late WifiConnectDart _wifiConnect;
+
 class NetworkWifiService with ChangeNotifier {
   final _currentNetwork = WifiNetwork('', 0);
   WifiNetwork get currentNetwork => _currentNetwork;
 
-  List<WifiNetwork> _networks = [
-    WifiNetwork('Culo1', 55),
-    WifiNetwork('Culo2', 25),
-    WifiNetwork('Culo3', 33),
-    WifiNetwork('Culo4', 89),
-  ];
+  List<WifiNetwork> _networks = [];
   List<WifiNetwork> get networks => _networks;
-
-  late MonitorDart _monitor;
-  late NativeCallable<MonitorCallback> _monitorCallbackFunc;
-
-  late WifiScanDart _wifiScan;
-  late FreeWifiScanResultDart _freeWifiResult;
-
-  late WifiConnectDart _wifiConnect;
 
   void init() {
     try {
-      final lib = DynamicLibrary.open('libcppconnman_adapter.so');
+      final lib = DynamicLibrary.open('libcppconnman_adapter.so.1');
 
       _monitor = lib.lookup<NativeFunction<MonitorC>>('monitor').asFunction();
       _monitorCallbackFunc = NativeCallable<MonitorCallback>.listener(
@@ -129,25 +125,30 @@ class NetworkWifiService with ChangeNotifier {
     _monitorCallbackFunc.close();
   }
 
-  void scanWiFi() {
-    final result = _wifiScan();
-    final networks = <WifiNetwork>[];
+  Future<void> scanWiFi() async {
+    final scannedNetworks = await Isolate.run(
+      () {
+        final result = _wifiScan();
+        final networks = <WifiNetwork>[];
 
-    try {
-      for (var i = 0; i < result.count; i++) {
-        final service = result.services[i];
-        networks.add(
-          WifiNetwork(
-            service.name.toDartString(),
-            service.strength,
-          ),
-        );
-      }
-    } finally {
-      _freeWifiResult(result);
-    }
+        try {
+          for (var i = 0; i < result.count; i++) {
+            final service = result.services[i];
+            networks.add(
+              WifiNetwork(
+                service.name.toDartString(),
+                service.strength,
+              ),
+            );
+          }
+          return networks;
+        } finally {
+          _freeWifiResult(result);
+        }
+      },
+    );
 
-    _networks = networks;
+    _networks = scannedNetworks;
     notifyListeners();
   }
 
