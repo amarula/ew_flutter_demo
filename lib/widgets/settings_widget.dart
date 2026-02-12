@@ -1,4 +1,6 @@
 // Flutter imports:
+import 'package:ew_2026_flutter_demo/components/textfield_dialog.dart';
+import 'package:ew_2026_flutter_demo/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 
 // Project imports:
@@ -79,14 +81,26 @@ class _SettingtWidgetState extends State<SettingsWidget> {
             },
           ),
           const SizedBox(width: 24),
-          SettingsCard(
-            title: 'Location',
-            value: weatherForecastService.city,
-            iconData: Icons.location_on_outlined,
-            onPressed: () => {
-              setState(() {
-                _showLocationInput = true;
-              }),
+          ListenableBuilder(
+            listenable: weatherForecastService,
+            builder: (context, child) {
+              return SettingsCard(
+                title: 'Location',
+                value: weatherForecastService.currentWeather.areaName!,
+                iconData: Icons.location_on_outlined,
+                onPressed: () => {
+                  TextFieldDialog.displayAlphanumDialog(
+                    context,
+                    'Location',
+                    isPassword: true,
+                    weatherForecastService.city.capitalize,
+                    (value) {
+                      weatherForecastService.city = value;
+                      setState(() {});
+                    },
+                  ),
+                },
+              );
             },
           ),
         ],
