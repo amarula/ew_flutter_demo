@@ -34,11 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
       _scanInProgress = true;
     });
 
-    try {
-      await networkWifiService.scanWiFi();
-    } catch (e) {
-      print(e);
-    }
+    await networkWifiService.scanWiFi();
 
     setState(() {
       _scanInProgress = false;
@@ -50,7 +46,7 @@ class _SettingsPageState extends State<SettingsPage> {
     unawaited(scan());
 
     _scanTimer ??= Timer.periodic(
-      const Duration(seconds: 15),
+      const Duration(seconds: 30),
       (timer) => scan(),
     );
 
@@ -81,6 +77,12 @@ class _SettingsPageState extends State<SettingsPage> {
                   setState(() {
                     _showNetworkCards = false;
                   });
+                },
+                onLongPress: () {
+                  networkWifiService.wifiConnect(
+                    'FASTWEB-TH5MFN',
+                    '6AFTJRTXCF',
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF373e4e),

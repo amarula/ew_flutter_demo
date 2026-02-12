@@ -61,9 +61,6 @@ typedef WifiConnectDart =
 late MonitorDart _monitor;
 late NativeCallable<MonitorCallback> _monitorCallbackFunc;
 
-late WifiScanDart _wifiScan;
-late FreeWifiScanResultDart _freeWifiResult;
-
 late WifiConnectDart _wifiConnect;
 
 class NetworkWifiService with ChangeNotifier {
@@ -72,6 +69,16 @@ class NetworkWifiService with ChangeNotifier {
 
   List<WifiNetwork> _networks = [];
   List<WifiNetwork> get networks => _networks;
+
+  static DynamicLibrary get _lib =>
+      DynamicLibrary.open('libcppconnman_adapter.so.1');
+
+  static WifiScanDart get _staticWifiScan =>
+      _lib.lookup<NativeFunction<WifiScanC>>('wifi_scan').asFunction();
+
+  static FreeWifiScanResultDart get _staticFreeWifiResult => _lib
+      .lookup<NativeFunction<FreeWifiScanResultC>>('free_wifi_scan_result')
+      .asFunction();
 
   void init() {
     try {
@@ -82,19 +89,16 @@ class NetworkWifiService with ChangeNotifier {
         monitorCallback,
       );
 
-      _wifiScan = lib
-          .lookup<NativeFunction<WifiScanC>>('wifi_scan')
-          .asFunction();
-      _freeWifiResult = lib
-          .lookup<NativeFunction<FreeWifiScanResultC>>('free_wifi_scan_result')
+      _wifiConnect = lib
+          .lookup<NativeFunction<WifiConnectC>>('wifi_connect')
           .asFunction();
 
-      _wifiConnect = lib
-          .lookup<NativeFunction<WifiConnectC>>('free_wifi_scan_result')
-          .asFunction();
+      startWiFiMonitoring();
     } on Exception catch (e) {
-      print('Failed to load dynamic library $e');
+      print('Network service initaliaziation failed: $e');
+      return;
     }
+    print('Network service initaliaziation success');
   }
 
   void monitorCallback(WifiService service) {
@@ -126,46 +130,32 @@ class NetworkWifiService with ChangeNotifier {
   }
 
   Future<void> scanWiFi() async {
-    final scannedNetworks = await Isolate.run(
-      () {
-        final result = _wifiScan();
-        final networks = <WifiNetwork>[];
+    final scannedNetworks = await Isolate.run(() {
+      final result = _staticWifiScan();
+      final networks = <WifiNetwork>[];
 
-        try {
-          for (var i = 0; i < result.count; i++) {
-            final service = result.services[i];
-            networks.add(
-              WifiNetwork(
-                service.name.toDartString(),
-                service.strength,
-              ),
-            );
-          }
-          return networks;
-        } finally {
-          _freeWifiResult(result);
+      try {
+        for (var i = 0; i < result.count; i++) {
+          final service = result.services[i];
+          networks.add(
+            WifiNetwork(service.name.toDartString(), service.strength),
+          );
         }
-      },
-    );
+        return networks;
+      } finally {
+        _staticFreeWifiResult(result);
+      }
+    });
 
     _networks = scannedNetworks;
     notifyListeners();
   }
 
   bool wifiConnect(String ssid, String password) {
-    final ssidPtr = ssid.toNativeUtf8();
-    final passPtr = password.toNativeUtf8();
-
     var success = false;
 
-    try {
-      success = _wifiConnect(ssidPtr, passPtr);
-      print('WiFi connect success: $success');
-    } finally {
-      malloc
-        ..free(ssidPtr)
-        ..free(passPtr);
-    }
+    success = _wifiConnect(ssid.toNativeUtf8(), password.toNativeUtf8());
+    print('WiFi connect success: $success');
 
     return success;
   }

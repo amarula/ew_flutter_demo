@@ -86,8 +86,6 @@ void monitor(WiFiStatusCallback cb) {
   }
 
   static const auto network_check = []() {
-    std::cout << "network_check\n";
-
     // Debounce prevents multiple callback calls within 500 milliseconds.
     Debounce::debounce("network_changes", std::chrono::milliseconds(500), []() {
       auto manager = connman_.manager();
@@ -202,6 +200,8 @@ WifiScanResult wifi_scan() {
   }
 
   std::copy(found_services.begin(), found_services.end(), result_array);
+
+  std::cout << "Found " << found_services.size() << " services\n";
 
   return {result_array, (int)found_services.size()};
 }
