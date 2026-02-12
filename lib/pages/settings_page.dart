@@ -303,7 +303,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   _showNetworkCards = true;
                 }),
               },
-              onLongPressed: () {},
+              onLongPressed: networkWifiService.init,
             ),
             ListenableBuilder(
               listenable: weatherForecastService,
