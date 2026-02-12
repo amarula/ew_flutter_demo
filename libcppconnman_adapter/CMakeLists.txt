@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(libcppconnman_adapter LANGUAGES C CXX)
+project(cppconnman_adapter LANGUAGES C CXX)
 
 include(FetchContent)
 
