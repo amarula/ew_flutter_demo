@@ -72,7 +72,7 @@ class NetworkWifiService with ChangeNotifier {
 
   void init() {
     try {
-      final lib = DynamicLibrary.open('libconnman_adapter.so');
+      final lib = DynamicLibrary.open('libcppconnman_adapter.so');
 
       _monitor = lib.lookup<NativeFunction<MonitorC>>('monitor').asFunction();
       _monitorCallbackFunc = NativeCallable<MonitorCallback>.listener(
