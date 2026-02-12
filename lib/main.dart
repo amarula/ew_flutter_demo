@@ -16,9 +16,9 @@ final networkWifiService = NetworkWifiService();
 
 void main() {
   print('Debug mode: ${kDebugMode ? 'ON' : 'OFF'}');
-  if (!kDebugMode) {
-    networkWifiService.init();
-  }
+  // if (!kDebugMode) {
+  //   networkWifiService.init();
+  // }
 
   weatherForecastService
     ..init()
