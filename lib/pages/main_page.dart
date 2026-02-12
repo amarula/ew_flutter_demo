@@ -1,5 +1,4 @@
 // Flutter imports:
-import 'package:ew_2026_flutter_demo/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -8,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 // Project imports:
 import 'package:ew_2026_flutter_demo/main.dart';
 import 'package:ew_2026_flutter_demo/pages/home_page.dart' show HomePage;
+import 'package:ew_2026_flutter_demo/pages/settings_page.dart';
 import 'package:ew_2026_flutter_demo/pages/weather_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -74,7 +74,7 @@ class _MainPageState extends State<MainPage> {
       listenable: networkWifiService,
       builder: (context, child) {
         return SvgPicture.asset(
-          networkWifiService.wifiStrenghtIcon(),
+          networkWifiService.currentNetwork.wifiStrenghtIcon(),
           width: 48,
           height: 48,
         );

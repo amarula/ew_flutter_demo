@@ -1,6 +1,5 @@
 // Dart imports:
 import 'dart:ffi';
-import 'dart:isolate';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
@@ -19,6 +18,22 @@ class WifiNetwork {
 
   String name;
   int strength;
+
+  String wifiStrenghtIcon() {
+    if (name.isEmpty) {
+      return 'assets/svg/wifi_offline.svg';
+    }
+    if (strength > 75) {
+      return 'assets/svg/wifi_100.svg';
+    }
+    if (strength > 50) {
+      return 'assets/svg/wifi_75.svg';
+    }
+    if (strength > 25) {
+      return 'assets/svg/wifi_50.svg';
+    }
+    return 'assets/svg/wifi_25.svg';
+  }
 }
 
 typedef MonitorCallback = Void Function(WifiService);
@@ -46,6 +61,14 @@ class NetworkWifiService with ChangeNotifier {
   final _currentNetwork = WifiNetwork('', 0);
   WifiNetwork get currentNetwork => _currentNetwork;
 
+  List<WifiNetwork> _networks = [
+    WifiNetwork('Culo1', 55),
+    WifiNetwork('Culo2', 25),
+    WifiNetwork('Culo3', 33),
+    WifiNetwork('Culo4', 89),
+  ];
+  List<WifiNetwork> get networks => _networks;
+
   late MonitorDart _monitor;
   late NativeCallable<MonitorCallback> _monitorCallbackFunc;
 
@@ -53,22 +76,6 @@ class NetworkWifiService with ChangeNotifier {
   late FreeWifiScanResultDart _freeWifiResult;
 
   late WifiConnectDart _wifiConnect;
-
-  String wifiStrenghtIcon() {
-    if (_currentNetwork.name.isEmpty) {
-      return 'assets/svg/wifi_offline.svg';
-    }
-    if (_currentNetwork.strength > 75) {
-      return 'assets/svg/wifi_100.svg';
-    }
-    if (_currentNetwork.strength > 50) {
-      return 'assets/svg/wifi_75.svg';
-    }
-    if (_currentNetwork.strength > 25) {
-      return 'assets/svg/wifi_50.svg';
-    }
-    return 'assets/svg/wifi_25.svg';
-  }
 
   void init() {
     try {
@@ -122,27 +129,26 @@ class NetworkWifiService with ChangeNotifier {
     _monitorCallbackFunc.close();
   }
 
-  Future<List<WifiNetwork>> scanWiFiAsync() async {
-    return Isolate.run(() {
-      final result = _wifiScan();
-      final networks = <WifiNetwork>[];
+  void scanWiFi() {
+    final result = _wifiScan();
+    final networks = <WifiNetwork>[];
 
-      try {
-        for (var i = 0; i < result.count; i++) {
-          final service = result.services[i];
-          networks.add(
-            WifiNetwork(
-              service.name.toDartString(),
-              service.strength,
-            ),
-          );
-        }
-      } finally {
-        _freeWifiResult(result);
+    try {
+      for (var i = 0; i < result.count; i++) {
+        final service = result.services[i];
+        networks.add(
+          WifiNetwork(
+            service.name.toDartString(),
+            service.strength,
+          ),
+        );
       }
+    } finally {
+      _freeWifiResult(result);
+    }
 
-      return networks;
-    });
+    _networks = networks;
+    notifyListeners();
   }
 
   bool wifiConnect(String ssid, String password) {

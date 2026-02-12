@@ -1,5 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SettingsCard extends StatelessWidget {
@@ -21,8 +23,8 @@ class SettingsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 200,
-      height: 250,
+      width: 560,
+      height: 184,
       decoration: BoxDecoration(
         color: const Color(0xFF373e4e),
         borderRadius: BorderRadius.circular(24),
@@ -54,11 +56,12 @@ class SettingsCard extends StatelessWidget {
                       ),
 
                     const SizedBox(width: 8),
+
                     Text(
                       title,
                       style: const TextStyle(
                         color: Colors.white70,
-                        fontSize: 16,
+                        fontSize: 20,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
