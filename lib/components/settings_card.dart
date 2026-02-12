@@ -9,6 +9,7 @@ class SettingsCard extends StatelessWidget {
     required this.title,
     required this.value,
     required this.onPressed,
+    required this.onLongPressed,
     this.iconAssetsPath,
     this.iconData,
     super.key,
@@ -17,6 +18,7 @@ class SettingsCard extends StatelessWidget {
   final String title;
   final String value;
   final VoidCallback onPressed;
+  final VoidCallback onLongPressed;
   final String? iconAssetsPath;
   final IconData? iconData;
 
@@ -34,6 +36,7 @@ class SettingsCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         child: InkWell(
           onTap: onPressed,
+          onLongPress: onLongPressed,
           borderRadius: BorderRadius.circular(24),
           child: Padding(
             padding: const EdgeInsets.all(20),

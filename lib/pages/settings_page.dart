@@ -305,6 +305,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   _showNetworkCards = true;
                 }),
               },
+              onLongPressed: () {},
             ),
             ListenableBuilder(
               listenable: weatherForecastService,
@@ -325,6 +326,11 @@ class _SettingsPageState extends State<SettingsPage> {
                         setState(() {});
                       },
                     ),
+                  },
+                  onLongPressed: () {
+                    weatherForecastService
+                      ..init()
+                      ..city = 'Savoca';
                   },
                 );
               },
