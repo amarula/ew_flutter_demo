@@ -55,8 +55,8 @@ class _MainPageState extends State<MainPage> {
         });
       },
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size(72, 72),
-        maximumSize: const Size(72, 72),
+        minimumSize: const Size(80, 80),
+        maximumSize: const Size(80, 80),
       ),
       child: FittedBox(
         fit: BoxFit.none,
@@ -89,12 +89,12 @@ class _MainPageState extends State<MainPage> {
       body: Row(
         children: [
           SizedBox(
-            width: 64,
+            width: 72,
             child: Column(
               children: [
                 Container(
-                  width: 64,
-                  height: 64,
+                  width: 72,
+                  height: 72,
                   color: const Color(0xFF1A1D24),
                   child: Center(
                     child: wifiStatusIcon(3),
