@@ -10,6 +10,7 @@ environment:
 dependencies:
   cupertino_icons: ^1.0.8
   ffi: ^2.1.5
+  flutekeyboard: ^0.3.0
   flutter:
     sdk: flutter
   flutter_svg: ^2.2.2
@@ -18,7 +19,6 @@ dependencies:
   lottie: ^3.3.2
   very_good_analysis: ^10.0.0
   weather: ^3.1.1
-  flutekeyboard: ^0.3.0
 
 dev_dependencies:
   flutter_lints: ^5.0.0
