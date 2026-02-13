@@ -8,20 +8,19 @@ import 'package:flutter_svg/svg.dart';
 // Project imports:
 import 'package:ew_2026_flutter_demo/pages/main_page.dart';
 import 'package:ew_2026_flutter_demo/services/network_wifi_service.dart';
+import 'package:ew_2026_flutter_demo/services/sensors_service.dart';
 import 'package:ew_2026_flutter_demo/services/weather_forecast_service.dart';
 
 final weatherForecastService = WeatherForecastService();
-
+final sensorsService = SensorsService();
 final networkWifiService = NetworkWifiService();
 
 void main() {
   print('Debug mode: ${kDebugMode ? 'ON' : 'OFF'}');
 
-  try {
-    networkWifiService.init();
-  } catch (e) {
-    print('Network init failed');
-  }
+  networkWifiService.init();
+
+  sensorsService.init();
 
   weatherForecastService
     ..init()

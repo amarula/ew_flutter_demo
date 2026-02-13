@@ -82,19 +82,17 @@ class NetworkWifiService with ChangeNotifier {
 
   void init() {
     try {
-      final lib = DynamicLibrary.open('libcppconnman_adapter.so.1');
-
-      _monitor = lib.lookup<NativeFunction<MonitorC>>('monitor').asFunction();
+      _monitor = _lib.lookup<NativeFunction<MonitorC>>('monitor').asFunction();
       _monitorCallbackFunc = NativeCallable<MonitorCallback>.listener(
         monitorCallback,
       );
 
-      _wifiConnect = lib
+      _wifiConnect = _lib
           .lookup<NativeFunction<WifiConnectC>>('wifi_connect')
           .asFunction();
 
       startWiFiMonitoring();
-    } on Exception catch (e) {
+    } catch (e) {
       print('Network service initaliaziation failed: $e');
       return;
     }
