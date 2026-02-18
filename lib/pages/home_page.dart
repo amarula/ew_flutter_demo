@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 
 // Project imports:
@@ -18,8 +19,32 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isHeating = false;
+  double _setpoint = 21;
+  bool _heating = false;
   bool _turnedOn = true;
+
+  void _incrementSetpoint() {
+    setState(() {
+      _setpoint += 0.5;
+      _turnedOn = _setpoint != sensorsService.temperature;
+      _heating = _setpoint > sensorsService.temperature;
+    });
+  }
+
+  void _decrementSetpoint() {
+    setState(() {
+      _setpoint -= 0.5;
+      _turnedOn = _setpoint != sensorsService.temperature;
+      _heating = _setpoint > sensorsService.temperature;
+    });
+  }
+
+  @override
+  void initState() {
+    _turnedOn = _setpoint != sensorsService.temperature;
+    _heating = _setpoint > sensorsService.temperature;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,32 +60,37 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   TempChangeButton(
                     icon: const Icon(Icons.expand_less),
-                    onPressed: () {
-                      isHeating = true;
-                      setState(() {});
-                    },
+                    onPressed: _incrementSetpoint,
+                    onLongPressed: _incrementSetpoint,
                   ),
                   Stack(
                     alignment: Alignment.center,
                     children: [
-                      Lottie.asset(
-                        'assets/lottie/${isHeating ? 'heating' : 'cooling'}_ring.json',
+                      Visibility(
+                        visible: _turnedOn,
+                        replacement: const Padding(
+                          padding: EdgeInsetsGeometry.all(165),
+                        ),
+                        child: Lottie.asset(
+                          'assets/lottie/${_heating ? 'heating' : 'cooling'}_ring.json',
+                        ),
                       ),
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Text('24°', style: TextStyle(fontSize: 72)),
-                          Text(isHeating ? 'Heat' : 'Cool'),
+                          Text(
+                            _setpoint.toStringAsFixed(1),
+                            style: const TextStyle(fontSize: 64),
+                          ),
+                          Text(_heating ? 'Heat' : 'Cool'),
                         ],
                       ),
                     ],
                   ),
                   TempChangeButton(
                     icon: const Icon(Icons.expand_more),
-                    onPressed: () {
-                      isHeating = false;
-                      setState(() {});
-                    },
+                    onPressed: _decrementSetpoint,
+                    onLongPressed: _decrementSetpoint,
                   ),
                 ],
               ),
@@ -78,29 +108,38 @@ class _HomePageState extends State<HomePage> {
                       SensorValueCard(
                         title: 'Temperature',
                         value: sensorsService.temperature.toStringAsFixed(1),
-                        icon: const Icon(Icons.thermostat, size: 32),
+                        icon: SvgPicture.asset(
+                          'assets/svg/temperature.svg',
+                          width: 32,
+                        ),
                         unit: '°C',
                       ),
                       SensorValueCard(
                         title: 'Humidity',
                         value: sensorsService.humidity.toStringAsFixed(0),
                         unit: '%',
-                        icon: const Icon(
-                          Icons.water_drop,
-                          size: 32,
+                        icon: SvgPicture.asset(
+                          'assets/svg/humidity_home.svg',
+                          width: 32,
                         ),
                       ),
                       SensorValueCard(
                         title: 'Pressure',
                         value: sensorsService.humidity.toStringAsFixed(0),
-                        icon: const Icon(Icons.air, size: 32),
+                        icon: SvgPicture.asset(
+                          'assets/svg/wind.svg',
+                          width: 32,
+                        ),
                         unit: 'hPa',
                       ),
                       PowerSwitch(
                         turnedOn: _turnedOn,
-                        onChanged: (value) {
-                          _turnedOn = value;
-                          setState(() {});
+                        onChanged: (_) {
+                          setState(() {
+                            _turnedOn =
+                                !_turnedOn &&
+                                _setpoint != sensorsService.temperature;
+                          });
                         },
                       ),
                     ],
