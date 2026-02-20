@@ -42,18 +42,6 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   @override
-  void initState() {
-    unawaited(scan());
-
-    _scanTimer ??= Timer.periodic(
-      const Duration(seconds: 30),
-      (timer) => scan(),
-    );
-
-    super.initState();
-  }
-
-  @override
   void dispose() {
     _scanTimer?.cancel();
     super.dispose();
@@ -62,6 +50,13 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     if (_showNetworkCards) {
+      unawaited(scan());
+
+      _scanTimer ??= Timer.periodic(
+        const Duration(seconds: 30),
+        (timer) => scan(),
+      );
+
       return ColoredBox(
         color: const Color(0xFF222630),
 
@@ -285,6 +280,8 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       );
     }
+
+    _scanTimer?.cancel();
 
     return ColoredBox(
       color: const Color(0xFF222630),
