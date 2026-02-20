@@ -50,10 +50,6 @@ class SensorsService with ChangeNotifier {
         humidity = _readHumidity();
         pressure = _readPressure();
         notifyListeners();
-
-        print('temperature=$temperature');
-        print('humidity=$humidity');
-        print('pressure=$pressure');
       });
     } catch (e) {
       print('Sensors service init failed: $e');
