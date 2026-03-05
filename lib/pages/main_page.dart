@@ -55,15 +55,15 @@ class _MainPageState extends State<MainPage> {
         });
       },
       style: ElevatedButton.styleFrom(
-        minimumSize: const Size(80, 80),
-        maximumSize: const Size(80, 80),
+        minimumSize: const Size(88, 88),
+        maximumSize: const Size(88, 88),
       ),
       child: FittedBox(
         fit: BoxFit.none,
         child: SvgPicture.asset(
           entry.iconPath,
-          width: 48,
-          height: 48,
+          width: 64,
+          height: 64,
         ),
       ),
     );
@@ -75,8 +75,8 @@ class _MainPageState extends State<MainPage> {
       builder: (context, child) {
         return SvgPicture.asset(
           networkWifiService.currentNetwork.wifiStrenghtIcon(),
-          width: 48,
-          height: 48,
+          width: 64,
+          height: 64,
         );
       },
     );
@@ -89,12 +89,12 @@ class _MainPageState extends State<MainPage> {
       body: Row(
         children: [
           SizedBox(
-            width: 72,
+            width: 88,
             child: Column(
               children: [
                 Container(
-                  width: 72,
-                  height: 72,
+                  width: 88,
+                  height: 88,
                   color: const Color(0xFF1A1D24),
                   child: Center(
                     child: wifiStatusIcon(3),

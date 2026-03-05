@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const SizedBox(width: 16),
+                          const SizedBox(width: 8),
                           SensorValueCard(
                             title: 'Temperature',
                             value: sensorsService.temperature.toStringAsFixed(

@@ -116,7 +116,7 @@ class _WeatherForecastWidgetState extends State<WeatherForecastWidget> {
 
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  spacing: 19,
+                  spacing: 16,
                   children: [
                     const Spacer(),
 
