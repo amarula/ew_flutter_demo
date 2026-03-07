@@ -71,6 +71,15 @@ double read_sensor_file(const std::string& path) {
   }
 }
 
+double convert_raw_humidity(double value) {
+  auto rh = -6.0f + 125.0f * (value / 65535.0f);
+
+  if (rh < 0.0f) rh = 0.0f;
+  if (rh > 100.0f) rh = 100.0f;
+
+  return rh;
+}
+
 extern "C" {
 
 static std::thread polling_thread_{};
@@ -119,9 +128,16 @@ void start_data_polling() {
 
           // Typical mC to C conversion
           if (s.type == TEMPERATURE) {
+            // SHT4x sensor
             raw_val = raw_val / 1000.0f;
-            std::cout << s.name << " - " << raw_val << '\n';
+          } else if (s.type == HUMIDITY) {
+            // SHT4x sensor
+            raw_val = convert_raw_humidity(raw_val);
+          } else if (s.type == PRESSURE) {
+            // LPS22HB sensor
+            raw_val = raw_val / 4096.0f;
           }
+          std::cout << s.name << " - " << raw_val << '\n';
 
           if (std::isnan(s.smoothed_value)) {
             s.smoothed_value = raw_val;
