@@ -182,7 +182,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           SensorValueCard(
                             title: 'Pressure',
-                            value: sensorsService.humidity.toStringAsFixed(0),
+                            value: sensorsService.pressure.toStringAsFixed(0),
                             icon: SvgPicture.asset(
                               'assets/svg/wind.svg',
                               width: 32,
