@@ -27,15 +27,17 @@ class HeatingController extends ChangeNotifier {
   double _setpoint;
   double get setpoint => _setpoint;
 
-  bool turnedOn = false;
+  bool turnedOn = true;
   bool heating = false;
 
   void increment() {
+    turnedOn = true;
     _setpoint += 0.5;
     _evaluate();
   }
 
   void decrement() {
+    turnedOn = true;
     _setpoint -= 0.5;
     _evaluate();
   }
@@ -59,7 +61,9 @@ class HeatingController extends ChangeNotifier {
   }
 
   void _evaluate() {
-    turnedOn = _setpoint != sensorsService.temperature;
+    if (!turnedOn) return;
+
+    turnedOn = _setpoint.truncate() != sensorsService.temperature.truncate();
     final oldHeating = heating;
     heating = _setpoint > sensorsService.temperature;
     if (turnedOn && oldHeating != heating) {
@@ -195,8 +199,8 @@ class _HomePageState extends State<HomePage> {
                               setState(() {
                                 _heatingController.turnedOn =
                                     !_heatingController.turnedOn &&
-                                    _heatingController.setpoint !=
-                                        sensorsService.temperature;
+                                    _heatingController.setpoint.truncate() !=
+                                        sensorsService.temperature.truncate();
                               });
                             },
                           ),
